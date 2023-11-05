@@ -9,7 +9,7 @@ const movieSchema = new mongoose.Schema({
       message: 'Необходимо ввести название фильма на русском языке',
     },
   },
-  nameENG: {
+  nameEN: {
     type: String,
     required: {
       value: true,
@@ -43,6 +43,7 @@ const movieSchema = new mongoose.Schema({
       value: true,
       message: 'Необходимо указать год выпуска фильма',
     },
+    minlength: [4, 'Введите 4 символа: ХХХХ'],
   },
   description: {
     type: String,
@@ -70,7 +71,7 @@ const movieSchema = new mongoose.Schema({
     },
     validate: {
       validator: (link) => isURL(link),
-      message: 'Здесь должна быть ссылка на трейлер фильма',
+      message: 'Неверный формат ссылки',
     },
   },
   thumbnail: {
@@ -98,7 +99,7 @@ const movieSchema = new mongoose.Schema({
       value: true,
       message: 'Необходимо указать ID фильма',
     },
-  }
+  },
 });
 
 module.exports = mongoose.model('movie', movieSchema);

@@ -13,7 +13,7 @@ const {
   MOVIE_NOT_FOUND_MESSAGE,
   INVALID_MOVIEDATA_MESSAGE,
   MOVIE_FORBIDDEN_DELETION_MESSAGE,
-  SUCCESS_DELETION_MOVIE_MESSAGE
+  SUCCESS_DELETION_MOVIE_MESSAGE,
 } = require('../utils/responseMessages');
 
 module.exports.getMovies = (req, res, next) => {
@@ -35,8 +35,8 @@ module.exports.addMovie = (req, res, next) => {
     image,
     trailerLink,
     thumbnail,
-    movieId
-   } = req.body;
+    movieId,
+  } = req.body;
   const owner = req.user._id;
   Movie.create({
     nameRU,
@@ -49,8 +49,10 @@ module.exports.addMovie = (req, res, next) => {
     image,
     trailerLink,
     thumbnail,
-    movieId
-   })
+    movieId,
+    owner,
+  })
+    .then((movie) => movie.populate('owner'))
     .then((movie) => res.status(Statuses.CREATED).send(movie))
     .catch((error) => {
       if (error instanceof ValidationError) {

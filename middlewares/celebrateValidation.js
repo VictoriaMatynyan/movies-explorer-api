@@ -1,5 +1,9 @@
 const { celebrate, Joi } = require('celebrate');
 
+// константы регулярок для ссылок и id
+const linkRegEx = /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_+.~#?&//=]*)/;
+const idRegEx = /^[0-9a-fA-F]{24}$/;
+
 // централизованная обработка ошибок для авторизации и регистрации
 module.exports.signinValidation = celebrate({
   body: Joi.object().keys({
@@ -11,45 +15,38 @@ module.exports.signinValidation = celebrate({
 module.exports.signupValidation = celebrate({
   body: Joi.object().keys({
     name: Joi.string().min(2).max(30),
-    about: Joi.string().min(2).max(30),
-    avatar: Joi.string().regex(/^https?:\/\/(www\.)?[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_+.~#?&//=]*)$/),
     email: Joi.string().required().email(),
     password: Joi.string().required(),
   }),
 });
 
 // централизованная обработка ошибок для пользователей
-module.exports.usersIdValidation = celebrate({
-  // валидируем параметры запроса
-  params: Joi.object().keys({
-    userId: Joi.string().regex(/^[0-9a-fA-F]{24}$/).required(),
-  }),
-});
-
 module.exports.userInfoValidation = celebrate({
-  // валидируем тело запроса
   body: Joi.object().keys({
     name: Joi.string().min(2).max(30).required(),
-    about: Joi.string().min(2).max(30).required(),
+    email: Joi.string().required().email(),
   }),
 });
 
-module.exports.userAvatarValidation = celebrate({
+// централизованная обработка ошибок для карточек с фильмами
+module.exports.creatingMovieValidation = celebrate({
   body: Joi.object().keys({
-    avatar: Joi.string().required().regex(/^https?:\/\/(www\.)?[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_+.~#?&//=]*)$/),
+    nameRU: Joi.string().required(),
+    nameEN: Joi.string().required(),
+    country: Joi.string().required(),
+    director: Joi.string().required(),
+    duration: Joi.number().required(),
+    year: Joi.string().required().min(4),
+    description: Joi.string().required(),
+    image: Joi.string().required().regex(linkRegEx),
+    trailerLink: Joi.string().required().regex(linkRegEx),
+    thumbnail: Joi.string().required().regex(linkRegEx),
+    movieId: Joi.number().required(),
   }),
 });
 
-// централизованная обработка ошибок для карточек
-module.exports.creatingCardValidation = celebrate({
-  body: Joi.object().keys({
-    name: Joi.string().required().min(2).max(30),
-    link: Joi.string().required().regex(/^https?:\/\/(www\.)?[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_+.~#?&//=]*)$/),
-  }),
-});
-
-module.exports.cardsIdValidation = celebrate({
+module.exports.moviesIdValidation = celebrate({
   params: Joi.object().keys({
-    cardId: Joi.string().regex(/^[0-9a-fA-F]{24}$/).required(),
+    movieId: Joi.string().regex(idRegEx).required(),
   }),
 });

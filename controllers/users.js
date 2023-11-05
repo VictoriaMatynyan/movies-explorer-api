@@ -1,4 +1,4 @@
-const { ValidationError } = require('mongoose').Error;
+const { ValidationError, CastError } = require('mongoose').Error;
 const bcrypt = require('bcrypt');
 const User = require('../models/user');
 const generateToken = require('../utils/jwt');
@@ -11,7 +11,7 @@ const Statuses = require('../utils/statusCodes');
 
 // импорт сообщений ответов и ошибок
 const {
-  MONGO_CONFLICT_ERROR_MESSAGE,
+  MONGO_CONFLICT_MESSAGE,
   USER_BAD_REQUEST_MESSAGE,
   SUCCESS_LOGIN_MESSAGE,
   SUCCESS_LOGOUT_MESSAGE,
@@ -31,7 +31,7 @@ module.exports.createUser = (req, res, next) => {
     .then((user) => res.status(Statuses.CREATED).send({ data: user.toJSON() }))
     .catch((error) => {
       if (error.code === Statuses.MONGO_DUPLICATE) {
-        next(new MongoDuplicateConflict(MONGO_CONFLICT_ERROR_MESSAGE));
+        next(new MongoDuplicateConflict(MONGO_CONFLICT_MESSAGE));
       } else if (error instanceof ValidationError) {
         // отправляем только message, без error, согласно чек-листу
         next(new BadRequestError(USER_BAD_REQUEST_MESSAGE));
