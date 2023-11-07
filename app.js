@@ -4,12 +4,16 @@ const mongoose = require('mongoose');
 const cookieParser = require('cookie-parser');
 const { errors } = require('celebrate');
 const centralizedErrorHandler = require('./middlewares/errorHandler');
+const rateLimiter = require('./middlewares/rateLimiter');
 const router = require('./routes/index');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 const cors = require('./middlewares/corsHandler');
 
-const { PORT = 3001, MONGO_URL = 'mongodb://127.0.0.1:27017/moviesdb' } = process.env;
+const { PORT = 3000, MONGO_URL = 'mongodb://127.0.0.1:27017/moviesdb' } = process.env;
 const app = express();
+
+// подключаем rate limiter как миддлвару
+app.use(rateLimiter);
 
 // подключаем обработчик CORS политики как мидлвару
 app.use(cors);
@@ -33,8 +37,6 @@ app.use(centralizedErrorHandler);
 async function init() {
   await mongoose.connect(MONGO_URL);
   await app.listen(PORT);
-  // eslint-disable-next-line no-console
-  console.log(`App listening on port ${PORT}`);
 }
 
 init();

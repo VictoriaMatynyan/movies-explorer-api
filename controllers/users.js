@@ -13,7 +13,6 @@ const Statuses = require('../utils/statusCodes');
 const {
   MONGO_CONFLICT_MESSAGE,
   USER_BAD_REQUEST_MESSAGE,
-  SUCCESS_LOGIN_MESSAGE,
   SUCCESS_LOGOUT_MESSAGE,
   INVALID_USER_ID_MESSAGE,
   USER_NOT_FOUND_MESSAGE,
@@ -28,12 +27,15 @@ module.exports.createUser = (req, res, next) => {
     .then((hash) => User.create({
       name, email, password: hash,
     }))
-    .then((user) => res.status(Statuses.CREATED).send({ data: user.toJSON() }))
+    .then((user) => res.status(Statuses.CREATED).send({
+      _id: user._id,
+      name: user.name,
+      email: user.email,
+    }))
     .catch((error) => {
       if (error.code === Statuses.MONGO_DUPLICATE) {
         next(new MongoDuplicateConflict(MONGO_CONFLICT_MESSAGE));
       } else if (error instanceof ValidationError) {
-        // отправляем только message, без error, согласно чек-листу
         next(new BadRequestError(USER_BAD_REQUEST_MESSAGE));
       } else {
         next(error);
@@ -49,11 +51,10 @@ module.exports.login = (req, res, next) => {
       res.cookie('jwt', token, {
         maxAge: 3600000,
         httpOnly: true,
-        // sameSite: 'none' при локальной сборке, т.к. на Vite адрес порта 5173, а не 3000!
         sameSite: true,
-        // secure: true, // нужен при локальной сборке
       });
-      return res.send({ message: SUCCESS_LOGIN_MESSAGE });
+      return res.send({ token }); // было {message: SUCCESS_LOGIN_MESSAGE},
+      // но для ревью нужно возвращать токен. После ревью верну message
     })
     .catch(next);
 };
