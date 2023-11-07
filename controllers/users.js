@@ -30,7 +30,7 @@ module.exports.createUser = (req, res, next) => {
     .then((user) => res.status(Statuses.CREATED).send({
       _id: user._id,
       name: user.name,
-      email: user.email,
+      email: user.email, // возвращаем данные без хэшированного пароля
     }))
     .catch((error) => {
       if (error.code === Statuses.MONGO_DUPLICATE) {
