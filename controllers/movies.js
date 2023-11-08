@@ -17,8 +17,9 @@ const {
 } = require('../utils/responseMessages');
 
 module.exports.getMovies = (req, res, next) => {
-  Movie.find({})
-    .populate(['owner'])
+  const ownerId = req.user._id;
+  // возвращаем только сохранённые текущим пользователем фильмы
+  Movie.find({ owner: ownerId })
     .then((movies) => res.send(movies.reverse()))
     .catch(next);
 };
