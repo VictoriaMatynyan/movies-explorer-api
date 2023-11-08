@@ -1,6 +1,6 @@
 const allowedCors = [
-  'http://mestoproject.nomoredomainsrocks.ru', // исправить на актуальный адрес
-  'https://mestoproject.nomoredomainsrocks.ru', // исправить на актуальный адрес
+  'http://moviepub.nomoredomainsmonster.ru',
+  'https://moviepub.nomoredomainsmonster.ru',
   'http://localhost:3000',
   'https://localhost:3000',
   'http://127.0.0.1:3000',
@@ -9,8 +9,8 @@ const allowedCors = [
   'https://localhost:5173',
   'http://127.0.0.1:5173',
   'https://127.0.0.1:5173',
-  'http://158.160.59.207',
-  'https://158.160.59.207',
+  'http://51.250.5.154',
+  'https://51.250.5.154',
 ];
 
 const cors = (req, res, next) => {
