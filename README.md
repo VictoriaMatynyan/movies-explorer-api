@@ -22,6 +22,6 @@ Repository's URL: https://github.com/VictoriaMatynyan/movies-explorer-api
 
 ## Project links
 
-Frontend <https://...>
+Frontend <https://moviepub.nomoredomainsmonster.ru>
 
-Backend <https://api...>
+Backend <https://api.moviepub.nomoredomainsmonster.ru>

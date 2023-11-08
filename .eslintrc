@@ -1,0 +1,9 @@
+{
+  "extends": "airbnb-base",
+  "rules": {
+    "no-underscore-dangle": ["error", { "allow": ["_id"] }]
+  }
+}
+
+// Согласно стайлгайду Airbnb, в JavaScript не следует использовать нижние подчёркивания для имён идентификаторов,
+//  поэтому, чтобы Eslint не ругался на переменную _id в файлах проекта, добавляем правило no-underscore-dangle
