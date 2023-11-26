@@ -14,6 +14,7 @@ const {
   MONGO_CONFLICT_MESSAGE,
   USER_BAD_REQUEST_MESSAGE,
   SUCCESS_LOGOUT_MESSAGE,
+  SUCCESS_LOGIN_MESSAGE,
   INVALID_USER_ID_MESSAGE,
   USER_NOT_FOUND_MESSAGE,
 } = require('../utils/responseMessages');
@@ -53,8 +54,7 @@ module.exports.login = (req, res, next) => {
         httpOnly: true,
         sameSite: true,
       });
-      return res.send({ token }); // было {message: SUCCESS_LOGIN_MESSAGE},
-      // но для ревью нужно возвращать токен. После ревью верну message
+      return res.send({ message: SUCCESS_LOGIN_MESSAGE }); // было {token}
     })
     .catch(next);
 };
