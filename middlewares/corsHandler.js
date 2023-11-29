@@ -1,6 +1,10 @@
 const allowedCors = [
   'http://moviepub.nomoredomainsmonster.ru',
   'https://moviepub.nomoredomainsmonster.ru',
+  'https://api.nomoreparties.co/',
+  'http://api.nomoreparties.co/',
+  'https://api.nomoreparties.co/beatfilm-movies',
+  'https://api.nomoreparties.co/beatfilm-movies',
   'http://localhost:3000',
   'https://localhost:3000',
   'http://127.0.0.1:3000',
@@ -9,8 +13,8 @@ const allowedCors = [
   'https://localhost:5173',
   'http://127.0.0.1:5173',
   'https://127.0.0.1:5173',
-  'http://51.250.5.154',
-  'https://51.250.5.154',
+  'http://158.160.108.50',
+  'https://158.160.108.50',
 ];
 
 const cors = (req, res, next) => {
