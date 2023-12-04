@@ -13,8 +13,8 @@ const Statuses = require('../utils/statusCodes');
 const {
   MONGO_CONFLICT_MESSAGE,
   USER_BAD_REQUEST_MESSAGE,
-  SUCCESS_LOGOUT_MESSAGE,
   SUCCESS_LOGIN_MESSAGE,
+  SUCCESS_LOGOUT_MESSAGE,
   INVALID_USER_ID_MESSAGE,
   USER_NOT_FOUND_MESSAGE,
 } = require('../utils/responseMessages');
@@ -52,8 +52,7 @@ module.exports.login = (req, res, next) => {
       res.cookie('jwt', token, {
         maxAge: 3600000,
         httpOnly: true,
-        sameSite: 'none',
-        secure: true,
+        sameSite: true,
       });
       return res.send({ message: SUCCESS_LOGIN_MESSAGE }); // было {token}
     })
